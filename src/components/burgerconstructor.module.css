@@ -1,0 +1,54 @@
+.constructorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.constructorElement {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.dragIcon {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    cursor: grab;
+}
+
+.scrollableContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: calc(100vh - 324px);
+    min-height: 100px;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-left: 32px;
+}
+
+.orderSection {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.totalPrice {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-height: 768px) {
+    .scrollableContainer {
+        max-height: calc(100vh - 400px);
+    }
+}
+
+@media (max-height: 600px) {
+    .scrollableContainer {
+        max-height: 200px;
+    }
+}
