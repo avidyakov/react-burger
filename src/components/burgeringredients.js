@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerConstructor from "./burgerconstructor";
 
-export default function BurgerIngredients() {
+export default function BurgerIngredients({data}) {
     const [current, setCurrent] = useState('buns');
 
     const handleTabClick = (value) => {
@@ -29,7 +29,7 @@ export default function BurgerIngredients() {
 
             <div className="mb-10">
                 <h3 className="text text_type_main-medium mb-6">Начинки</h3>
-                <BurgerConstructor currentIngredient={current}/>
+                <BurgerConstructor currentIngredient={current} data={data}/>
             </div>
         </section>
     )
