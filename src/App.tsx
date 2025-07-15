@@ -2,9 +2,11 @@ import React from 'react';
 import './App.css';
 import Header from './components/header';
 import BurgerIngredients from "./components/burgeringredients";
+import BurgerConstructor from "./components/burgerconstructor";
 
 function App() {
     const [data, setData] = React.useState([]);
+    const [currentIngredient, setCurrentIngredient] = React.useState('bun');
 
     React.useEffect(() => {
         fetch('https://norma.nomoreparties.space/api/ingredients')
@@ -25,7 +27,10 @@ function App() {
         <div className="App">
             <Header/>
             <main className="content">
-                <BurgerIngredients data={data}/>
+                <div className="container">
+                    <BurgerIngredients data={data}/>
+                    <BurgerConstructor currentIngredient={currentIngredient} data={data}/>
+                </div>
             </main>
         </div>
     );
