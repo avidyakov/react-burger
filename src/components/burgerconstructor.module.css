@@ -13,9 +13,27 @@
 }
 
 .scroll {
-  height: 400px;
+  max-height: 400px;
   overflow-y: auto;
   margin-left: 20px;
+}
+
+.bun {
+  display: flex;
+  width: 100%;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.lock {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.delete {
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 .order {

@@ -61,7 +61,7 @@ export default function BurgerIngredients({data}) {
             <h2 className="text text_type_main-large mb-6">Соберите бургер</h2>
 
             <div className="mb-10">
-                <div style={{display: 'flex'}}>
+                <div className={styles.tabs}>
                     <Tab value="bun" active={tab === 'bun'} onClick={tabClick}>
                         Булки
                     </Tab>
