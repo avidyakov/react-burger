@@ -1,0 +1,27 @@
+.wrapper {
+    text-align: center;
+    padding: 30px;
+}
+
+.num {
+    text-shadow: 0px 0px 10px blue;
+    margin-bottom: 20px;
+}
+
+.id {
+    margin-bottom: 30px;
+}
+
+.img {
+    width: 100px;
+    height: 100px;
+    margin: 30px 0;
+}
+
+.msg {
+    margin-bottom: 5px;
+}
+
+.txt {
+    margin-bottom: 0;
+}

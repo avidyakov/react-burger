@@ -1,0 +1,31 @@
+.header {
+    background: var(--background);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+
+.nav {
+    display: flex;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.linkActive {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-primary-color);
+}
+
+.linkInactive {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: var(--common-transition);
+}

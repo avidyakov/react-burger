@@ -1,0 +1,48 @@
+.box {
+  width: 100%;
+}
+
+.element {
+  display: flex;
+  width: 100%;
+}
+
+.drag {
+  margin-right: 8px;
+  cursor: grab;
+}
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-left: 20px;
+}
+
+.bun {
+  display: flex;
+  width: 100%;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+
+.lock {
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.delete {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.order {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.sum {
+  display: flex;
+  margin-right: 20px;
+}
