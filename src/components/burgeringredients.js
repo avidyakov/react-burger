@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import {Modal} from './modal';
 import IngredientDetails from './ingredient-details';
-import DraggableIngredient from './draggable-ingredient';
+import IngredientCategory from './ingredient-category';
 import styles from './burgeringredients.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {addIngredient, setBun} from '../services/actions/constructor';
@@ -10,7 +10,7 @@ import {resetCurrentIngredient, setCurrentIngredient} from '../services/actions/
 
 export default function BurgerIngredients() {
     const dispatch = useDispatch();
-    const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(state => state.ingredients);
+    const {ingredients} = useSelector(state => state.ingredients);
     const {bun, ingredients: constructorIngredients} = useSelector(state => state.burgerConstructor);
     const {currentIngredient} = useSelector(state => state.ingredientDetails);
     const data = ingredients;
@@ -97,27 +97,6 @@ export default function BurgerIngredients() {
         return count;
     }, [bun, constructorIngredients]);
 
-    const showCategory = (typ, name, ref) => {
-        const items = data.filter(item => item.type === typ);
-
-        return (
-            <div className="mb-10" ref={ref}>
-                <h3 className="text text_type_main-medium mb-6">{name}</h3>
-                <div className={styles.grid}>
-                    {items.map(ing => (
-                        <DraggableIngredient
-                            key={ing._id}
-                            ingredient={ing}
-                            count={getCount(ing._id)}
-                            onClick={() => clickIngr(ing)}
-                            onDrop={() => handleAddIngredient(ing)}
-                        />
-                    ))}
-                </div>
-            </div>
-        );
-    };
-
     return (
         <section className="pt-10 pl-5 pr-5">
             <h2 className="text text_type_main-large mb-6">Соберите бургер</h2>
@@ -137,9 +116,30 @@ export default function BurgerIngredients() {
             </div>
 
             <div className={styles.container} ref={containerRef}>
-                {showCategory('bun', 'Булки', bunRef)}
-                {showCategory('sauce', 'Соусы', sauceRef)}
-                {showCategory('main', 'Начинки', mainRef)}
+                <IngredientCategory
+                    title="Булки"
+                    items={data.filter(item => item.type === 'bun')}
+                    itemRef={bunRef}
+                    onItemClick={clickIngr}
+                    onItemDrop={handleAddIngredient}
+                    getCount={getCount}
+                />
+                <IngredientCategory
+                    title="Соусы"
+                    items={data.filter(item => item.type === 'sauce')}
+                    itemRef={sauceRef}
+                    onItemClick={clickIngr}
+                    onItemDrop={handleAddIngredient}
+                    getCount={getCount}
+                />
+                <IngredientCategory
+                    title="Начинки"
+                    items={data.filter(item => item.type === 'main')}
+                    itemRef={mainRef}
+                    onItemClick={clickIngr}
+                    onItemDrop={handleAddIngredient}
+                    getCount={getCount}
+                />
             </div>
 
             {modal && (

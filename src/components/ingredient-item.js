@@ -4,7 +4,7 @@ import {Counter, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-com
 import styles from './burgeringredients.module.css';
 import PropTypes from 'prop-types';
 
-const IngredientItem = ({ingredient, count, onClick, onDrag}) => {
+const IngredientItem = ({ingredient, count, onClick}) => {
     const ref = useRef(null);
 
     const [{isDragging}, dragRef] = useDrag({
@@ -37,9 +37,7 @@ const IngredientItem = ({ingredient, count, onClick, onDrag}) => {
                     {ingredient.name}
                 </p>
             </div>
-            <div onClick={() => onDrag(ingredient)}>
-                <Counter count={count} size="default"/>
-            </div>
+            <Counter count={count} size="default"/>
         </div>
     );
 };
@@ -53,8 +51,7 @@ IngredientItem.propTypes = {
         image: PropTypes.string.isRequired
     }).isRequired,
     count: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
-    onDrag: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired
 };
 
 export default IngredientItem;

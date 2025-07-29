@@ -6,6 +6,7 @@ import styles from './burgerconstructor.module.css';
 
 const DraggableConstructorElement = ({ingredient, index, handleRemove, handleMove}) => {
     const ref = useRef(null);
+    const dragRef = useRef(null);
 
     const [{isDragging}, drag] = useDrag({
         type: 'constructor-element',
@@ -49,7 +50,8 @@ const DraggableConstructorElement = ({ingredient, index, handleRemove, handleMov
         }
     });
 
-    drag(drop(ref));
+    drop(ref);
+    drag(dragRef);
 
     return (
         <div
@@ -58,7 +60,7 @@ const DraggableConstructorElement = ({ingredient, index, handleRemove, handleMov
             style={{opacity: isDragging ? 0.5 : 1}}
             data-handler-id={handlerId}
         >
-            <div className={styles.drag}>
+            <div ref={dragRef} className={styles.drag}>
                 <DragIcon type="primary"/>
             </div>
             <ConstructorElement
