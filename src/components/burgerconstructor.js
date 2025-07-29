@@ -1,38 +1,57 @@
-import React, {useState} from 'react';
-import {
-    Button,
-    ConstructorElement,
-    CurrencyIcon,
-    DragIcon,
-    LockIcon
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import React, {useCallback, useState} from 'react';
+import {Button, ConstructorElement, CurrencyIcon, LockIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burgerconstructor.module.css';
 import {Modal} from './modal';
 import OrderDetails from './order-details';
+import {useDispatch, useSelector} from 'react-redux';
+import {addIngredient, moveIngredient, removeIngredient, setBun} from '../services/actions/constructor';
+import {createOrder, resetOrder} from '../services/actions/order';
+import DroppableConstructor from './droppable-constructor';
+import DraggableConstructorElement from './draggable-constructor-element';
 
-export default function BurgerConstructor({data}) {
+export default function BurgerConstructor() {
+    const dispatch = useDispatch();
+    const {ingredients: allIngredients} = useSelector(state => state.ingredients);
+    const {bun, ingredients} = useSelector(state => state.burgerConstructor);
+    const {orderNumber, orderRequest, orderFailed} = useSelector(state => state.order);
     const [orderModal, setOrderModal] = useState(false);
-    const [num, setNum] = useState(null);
 
-    const makeOrder = () => {
-        setNum(123);
+    const handleAddIngredient = useCallback((ingredient) => {
+        if (ingredient.type === 'bun') {
+            dispatch(setBun(ingredient));
+        } else {
+            dispatch(addIngredient(ingredient));
+        }
+    }, [dispatch]);
+
+    const handleRemoveIngredient = useCallback((uuid) => {
+        dispatch(removeIngredient(uuid));
+    }, [dispatch]);
+
+    const handleMoveIngredient = useCallback((dragIndex, hoverIndex) => {
+        dispatch(moveIngredient(dragIndex, hoverIndex));
+    }, [dispatch]);
+
+    const makeOrder = useCallback(() => {
+        if (!bun) return;
+        const ingredientIds = [bun._id];
+        ingredients.forEach(item => ingredientIds.push(item._id));
+        ingredientIds.push(bun._id);
+        dispatch(createOrder(ingredientIds));
         setOrderModal(true);
-    };
+    }, [dispatch, bun, ingredients]);
 
-    const closeOrder = () => {
+    const closeOrder = useCallback(() => {
         setOrderModal(false);
-    };
-
-    const bun = data.find(item => item.type === 'bun');
-
-    const ingredients = data.filter(item => item.type !== 'bun');
+        dispatch(resetOrder());
+    }, [dispatch]);
 
     const price = (bun ? bun.price * 2 : 0) +
         ingredients.reduce((sum, item) => sum + item.price, 0);
 
     return (
         <section className="pt-25 pl-4 pr-4">
-            <div className={styles.box}>
+            <DroppableConstructor onDrop={handleAddIngredient}>
                 {bun && (
                     <div className={styles.bun}>
                         <div className={styles.lock}>
@@ -49,20 +68,14 @@ export default function BurgerConstructor({data}) {
                 )}
 
                 <div className={styles.scroll}>
-                    {ingredients.map(ing => (
-                        <div key={ing._id} className={`${styles.element} mb-4`}>
-                            <div className={styles.drag}>
-                                <DragIcon type="primary"/>
-                            </div>
-                            <ConstructorElement
-                                text={ing.name}
-                                price={ing.price}
-                                thumbnail={ing.image}
-                                handleClose={() => {
-                                    console.log('Removed ingredient');
-                                }}
-                            />
-                        </div>
+                    {ingredients.map((ing, index) => (
+                        <DraggableConstructorElement
+                            key={ing.uuid}
+                            ingredient={ing}
+                            index={index}
+                            handleRemove={handleRemoveIngredient}
+                            handleMove={handleMoveIngredient}
+                        />
                     ))}
                 </div>
 
@@ -86,15 +99,15 @@ export default function BurgerConstructor({data}) {
                         <p className="text text_type_digits-medium mr-2">{price}</p>
                         <CurrencyIcon type="primary"/>
                     </div>
-                    <Button type="primary" size="large" onClick={makeOrder}>
+                    <Button type="primary" size="large" onClick={makeOrder} disabled={!bun || ingredients.length === 0}>
                         Оформить заказ
                     </Button>
                 </div>
-            </div>
+            </DroppableConstructor>
 
             {orderModal && (
                 <Modal onClose={closeOrder}>
-                    <OrderDetails orderNumber={num}/>
+                    <OrderDetails orderNumber={orderNumber}/>
                 </Modal>
             )}
         </section>
